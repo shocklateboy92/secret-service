@@ -77,7 +77,7 @@ public class ServiceTest {
         assertEquals(128, peerPublicKey.length);
 
         ObjectPath sessionPath = response.b;
-        assertTrue(sessionPath.getPath().startsWith(Static.ObjectPaths.SESSION + "/s"));
+        assertTrue(sessionPath.getPath().startsWith(Static.ObjectPaths.SESSION));
     }
 
     @Test

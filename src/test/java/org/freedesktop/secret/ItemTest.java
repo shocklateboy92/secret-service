@@ -24,7 +24,7 @@ public class ItemTest {
     @BeforeEach
     public void beforeEach(TestInfo info) {
         log.info(info.getDisplayName());
-        context = new Context(log);
+        context = new Context(log, true);
         context.ensureItem();
     }
 

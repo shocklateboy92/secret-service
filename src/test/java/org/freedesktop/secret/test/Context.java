@@ -73,7 +73,7 @@ public class Context {
         }
 
         session = service.getSession();
-        assertTrue(session.getObjectPath().startsWith(Static.ObjectPaths.SESSION + "/s"));
+        assertTrue(session.getObjectPath().startsWith(Static.ObjectPaths.SESSION));
 
         password = new Secret(session.getPath(), "".getBytes(), "test".getBytes());
     }
@@ -85,10 +85,15 @@ public class Context {
 
         collections = Static.Convert.toStrings(service.getCollections());
         if (collections.contains(Static.ObjectPaths.collection("test"))) {
-            ObjectPath deletePrompt = collection.delete();
-            if (!deletePrompt.getPath().equals("/")) {
-                log.error("won't wait for prompt in automated test context.");
-                exit(-3);
+            for (ObjectPath itemPath: collection.getItems()) {
+                Item item = new Item(itemPath, service);
+
+                ObjectPath deletePrompt = item.delete();
+
+                if (!deletePrompt.getPath().equals("/")) {
+                    log.error("won't wait for prompt in automated test context.");
+                    exit(-3);
+                }
             }
         }
         Map<String, Variant> properties = Collection.createProperties("test");
